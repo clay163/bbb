@@ -1,0 +1,78 @@
+{
+  "items": [
+    {
+      "name": "青菜",
+      "quantity": "少量",
+      "storage": "冷藏",
+      "opened": false,
+      "purchase_date": "2026-10-02",
+      "category": null,
+      "id": "f187430",
+      "added_at": "2026-10-04T12:17:10.858972"
+    },
+    {
+      "name": "牛奶",
+      "quantity": "1盒",
+      "storage": "冷藏",
+      "opened": true,
+      "purchase_date": "2026-09-25",
+      "category": null,
+      "id": "f287432",
+      "added_at": "2026-10-04T12:17:12.905304"
+    },
+    {
+      "name": "酸奶",
+      "quantity": "1杯",
+      "storage": "冷藏",
+      "opened": true,
+      "purchase_date": "2026-09-20",
+      "category": null,
+      "id": "f387434",
+      "added_at": "2026-10-04T12:17:14.954510"
+    },
+    {
+      "name": "剩米饭",
+      "quantity": "1碗",
+      "storage": "冷藏",
+      "opened": false,
+      "purchase_date": "2026-10-03",
+      "category": null,
+      "id": "f587439",
+      "added_at": "2026-10-04T12:17:19.057382"
+    },
+    {
+      "name": "胡萝卜",
+      "quantity": "半根",
+      "storage": "冷藏",
+      "opened": false,
+      "purchase_date": "2026-09-25",
+      "category": null,
+      "id": "f687441",
+      "added_at": "2026-10-04T12:17:21.108744"
+    },
+    {
+      "name": "西红柿",
+      "quantity": "2个",
+      "storage": "冷藏",
+      "opened": false,
+      "purchase_date": "2026-10-04",
+      "category": null,
+      "id": "f787443",
+      "added_at": "2026-10-04T12:17:23.168694"
+    }
+  ],
+  "consumed": [
+    {
+      "name": "鸡蛋",
+      "quantity": "3个",
+      "storage": "冷藏",
+      "opened": false,
+      "purchase_date": "2026-09-28",
+      "category": null,
+      "id": "f487437",
+      "added_at": "2026-10-04T12:17:17.001199",
+      "consumed_at": "2026-10-04T12:17:29.297288"
+    }
+  ],
+  "expired_log": []
+}
