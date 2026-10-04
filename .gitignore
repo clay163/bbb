@@ -1,0 +1,29 @@
+# 密钥（绝不推送）
+.env
+.streamlit/secrets.toml
+
+# 运行时数据
+data/fridge.json
+
+# 日志
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# 系统
+Thumbs.db
+.DS_Store
+
+# 临时
+demo.py
+demo_report.html
+start.bat
+backend.log
+frontend.log
+backend_err.log
+frontend_err.log
