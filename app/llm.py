@@ -7,9 +7,23 @@ load_dotenv()
 _client = None
 
 
+def _get_api_key():
+    key = os.getenv("LLM_API_KEY", "")
+    if key and not key.startswith("your_"):
+        return key
+    try:
+        import streamlit as st
+        key = st.secrets.get("LLM_API_KEY", "")
+        if key:
+            return key
+    except Exception:
+        pass
+    return ""
+
+
 def _get_config():
     return {
-        "api_key": os.getenv("LLM_API_KEY", ""),
+        "api_key": _get_api_key(),
         "base_url": os.getenv("LLM_BASE_URL", "https://open.bigmodel.cn/api/paas/v4"),
         "vision_model": os.getenv("LLM_VISION_MODEL", "glm-4v-plus"),
         "text_model": os.getenv("LLM_TEXT_MODEL", "glm-4-flash"),
