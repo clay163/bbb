@@ -200,10 +200,10 @@ with tab_photo:
         st.markdown("---")
         preview_col, action_col = st.columns([1, 2])
         with preview_col:
-            st.image(img_bytes, caption=f"📷 {img_source}的图片", use_container_width=True)
+            st.image(img_bytes, caption=f"📷 {img_source}的图片", width="stretch")
         with action_col:
             st.markdown("##### 确认后点击识别")
-            if st.button("🔍 开始 AI 识别", type="primary", use_container_width=True):
+            if st.button("🔍 开始 AI 识别", type="primary", width="stretch"):
                 with st.spinner("AI 正在识别食材…"):
                     try:
                         b64 = base64.b64encode(img_bytes).decode()
@@ -246,7 +246,7 @@ with tab_photo:
                             opened = c4.checkbox("已开封", it.get("opened", False), key=f"o{i}")
                             edited.append({"name": name, "quantity": qty, "storage": stor, "opened": opened})
 
-                    if st.button("✅ 全部加入冰箱", type="primary", use_container_width=True):
+                    if st.button("✅ 全部加入冰箱", type="primary", width="stretch"):
                         ok = 0
                         for it in edited:
                             if it["name"].strip():
@@ -280,7 +280,7 @@ with tab_fridge:
             s = ac3.selectbox("存放位置", ["冷藏", "冷冻", "常温"])
             op = ac4.checkbox("已开封")
             purchase_date = ac5.date_input("购买日期", value=date.today())
-            if st.form_submit_button("✅ 添加到冰箱", type="primary", use_container_width=True):
+            if st.form_submit_button("✅ 添加到冰箱", type="primary", width="stretch"):
                 if n.strip():
                     storage.add_item({
                         "name": n.strip(), "quantity": q, "storage": s,
@@ -352,10 +352,10 @@ with tab_fridge:
                             unsafe_allow_html=True,
                         )
                         b1, b2 = st.columns(2)
-                        if b1.button("✅ 消耗", key=f"c{it['id']}", use_container_width=True):
+                        if b1.button("✅ 消耗", key=f"c{it['id']}", width="stretch"):
                             storage.consume_item(it["id"])
                             st.rerun()
-                        if b2.button("🗑️ 删除", key=f"d{it['id']}", use_container_width=True):
+                        if b2.button("🗑️ 删除", key=f"d{it['id']}", width="stretch"):
                             storage.remove_item(it["id"])
                             st.rerun()
         else:
@@ -391,7 +391,7 @@ with tab_cook:
             with cnt_col:
                 cnt = st.slider("菜谱数量", 1, 6, 3, key="cnt")
 
-            if st.button("🍳 生成菜谱", type="primary", use_container_width=True) and chosen:
+            if st.button("🍳 生成菜谱", type="primary", width="stretch") and chosen:
                 with st.spinner("AI 正在想做什么菜…"):
                     try:
                         recipes = recipe.generate_recipes(chosen, pref, cnt)
@@ -460,13 +460,13 @@ with tab_cook:
 
                             bc1, bc2 = st.columns(2)
                             is_fav = storage.is_favorite(rname)
-                            if bc1.button("⭐ 收藏" if not is_fav else "⭐ 已收藏", key=f"fav{rname}", use_container_width=True):
+                            if bc1.button("⭐ 收藏" if not is_fav else "⭐ 已收藏", key=f"fav{rname}", width="stretch"):
                                 if not is_fav:
                                     storage.add_favorite(r)
                                 else:
                                     storage.remove_favorite(rname)
                                 st.rerun()
-                            if bc2.button("✅ 标记做过", key=f"cooked{rname}", use_container_width=True):
+                            if bc2.button("✅ 标记做过", key=f"cooked{rname}", width="stretch"):
                                 storage.add_history(r)
                                 st.success(f"已记录「{rname}」到做菜历史")
                 else:
@@ -485,7 +485,7 @@ with tab_cook:
         if names:
             st.markdown(f"当前食材：{'、'.join(names)}")
             meal_pref = st.text_input("饮食偏好", placeholder="如：清淡 / 减脂 / 家常 / 一人份", key="meal_pref")
-            if st.button("📅 生成今日三餐", type="primary", use_container_width=True):
+            if st.button("📅 生成今日三餐", type="primary", width="stretch"):
                 with st.spinner("AI 正在安排三餐…"):
                     plan = recipe.generate_meal_plan(names, meal_pref)
                 if "error" in plan:
@@ -521,7 +521,7 @@ with tab_cook:
                         fname = f.get("name", "")
                         st.markdown(f"**{fname}**　{f.get('tag', '')}")
                         st.caption(f.get("description", ""))
-                        if st.button("🗑️ 取消收藏", key=f"rmfav{fname}", use_container_width=True):
+                        if st.button("🗑️ 取消收藏", key=f"rmfav{fname}", width="stretch"):
                             storage.remove_favorite(fname)
                             st.rerun()
             else:
@@ -578,7 +578,7 @@ with tab_stats:
             color=alt.Color("类型:N", scale=alt.Scale(range=["#5a9e8f", "#e85d5d"])),
             column=alt.Column("类型:N", title=None),
         ).properties(height=200)
-        st.altair_chart(chart, use_container_width=True)
+        st.altair_chart(chart, width="stretch")
 
     with chart_col2:
         st.markdown("##### 🥧 冰箱食材分类分布")
@@ -595,7 +595,7 @@ with tab_stats:
                 color=alt.Color("分类:N", legend=alt.Legend(title="分类", orient="right")),
                 tooltip=["分类", "数量"],
             ).properties(height=200)
-            st.altair_chart(pie, use_container_width=True)
+            st.altair_chart(pie, width="stretch")
         else:
             st.caption("冰箱空空如也")
 
