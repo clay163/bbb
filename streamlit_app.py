@@ -1,3 +1,9 @@
-import runpy
+import os
+from pathlib import Path
 
-runpy.run_path("frontend/app.py", run_name="__main__")
+ROOT = Path(__file__).resolve().parent
+os.chdir(ROOT)
+
+app_file = ROOT / "frontend" / "app.py"
+exec(compile(app_file.read_text(encoding="utf-8"), str(app_file), "exec"),
+     {"__file__": str(app_file), "__name__": "__main__"})

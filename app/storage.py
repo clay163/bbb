@@ -76,3 +76,51 @@ def get_consumed() -> list[dict]:
 
 def get_expired_log() -> list[dict]:
     return _load()["expired_log"]
+
+RECIPE_FILE = DATA_DIR / "recipes.json"
+
+
+def _load_recipes() -> dict:
+    if RECIPE_FILE.exists():
+        return json.loads(RECIPE_FILE.read_text(encoding="utf-8"))
+    return {"favorites": [], "history": []}
+
+
+def _save_recipes(data: dict) -> None:
+    RECIPE_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def add_favorite(recipe: dict) -> None:
+    data = _load_recipes()
+    name = recipe.get("name", "")
+    data["favorites"] = [f for f in data["favorites"] if f.get("name") != name]
+    recipe["saved_at"] = datetime.now().isoformat()
+    data["favorites"].append(recipe)
+    _save_recipes(data)
+
+
+def remove_favorite(name: str) -> None:
+    data = _load_recipes()
+    data["favorites"] = [f for f in data["favorites"] if f.get("name") != name]
+    _save_recipes(data)
+
+
+def list_favorites() -> list[dict]:
+    return _load_recipes()["favorites"]
+
+
+def is_favorite(name: str) -> bool:
+    return any(f.get("name") == name for f in _load_recipes()["favorites"])
+
+
+def add_history(recipe: dict) -> None:
+    data = _load_recipes()
+    recipe["cooked_at"] = datetime.now().isoformat()
+    data["history"].append(recipe)
+    if len(data["history"]) > 50:
+        data["history"] = data["history"][-50:]
+    _save_recipes(data)
+
+
+def list_history() -> list[dict]:
+    return _load_recipes()["history"]

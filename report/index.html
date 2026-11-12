@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI冰箱管家与剩菜改造师 · 专项方案</title>
+<style>
+:root {
+  --paper: #F5F3EF; --sheet: #FFFFFF; --ink: #1F1E1C; --ink-2: #4A4740; --ink-3: #706B63;
+  --rule: #E0DDD8; --lime: #C8F04A; --lime-ink: #4E6C0E; --amber: #925A0B; --amber-bg: #FBF0DC;
+  --ok-bg: #EEF6DA; --font: "Noto Sans SC","Microsoft YaHei",sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--paper); color: var(--ink); font: 15px/1.9 var(--font); }
+.page { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+.sheet { background: var(--sheet); border: 1px solid var(--rule); padding: 48px 56px 40px; border-radius: 4px; }
+.cover { border-bottom: 1px solid var(--rule); padding-bottom: 32px; margin-bottom: 40px; }
+.cover .mark { font-size: 13px; font-weight: 700; color: var(--lime-ink); letter-spacing: -.02em; margin-bottom: 12px; }
+h1 { font-size: 34px; line-height: 1.4; letter-spacing: -.03em; margin-bottom: 12px; }
+.lede { color: var(--ink-2); font-size: 16px; line-height: 1.9; max-width: 46em; }
+.meta { margin-top: 16px; font-size: 12px; color: var(--ink-3); font-family: monospace; }
+section { margin-bottom: 48px; }
+h2 { font-size: 24px; border-bottom: 2px solid var(--ink); padding-bottom: 12px; margin-bottom: 20px; }
+h2 .n { font-size: 13px; color: var(--ink-3); font-family: monospace; margin-right: 10px; }
+h3 { font-size: 17px; margin: 20px 0 8px; }
+p { margin-bottom: 12px; }
+ul, ol { margin: 8px 0 12px 1.5em; }
+li { margin-bottom: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; line-height: 1.7; margin: 12px 0; }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { background: var(--paper); font-weight: 600; color: var(--ink-2); font-size: 12px; }
+tbody tr:nth-child(even) { background: #FAFAF8; }
+.callout { border-left: 3px solid var(--lime-ink); background: var(--ok-bg); padding: 14px 18px; font-size: 14px; margin: 12px 0; border-radius: 0 4px 4px 0; }
+.callout.warn { border-left-color: var(--amber); background: var(--amber-bg); }
+.footer { border-top: 1px solid var(--rule); padding-top: 20px; margin-top: 40px; font-size: 12px; color: var(--ink-3); }
+@media (max-width: 600px) { .sheet { padding: 28px 20px; } h1 { font-size: 26px; } }
+</style>
+</head>
+<body>
+<div class="page"><div class="sheet">
+
+<div class="cover">
+  <div class="mark">🧊 AI 冰箱管家 + 剩菜改造师</div>
+  <h1>专项方案报告</h1>
+  <p class="lede">基于多模态大模型与保质期规则引擎，面向家庭食材管理、剩菜改造与浪费减少等场景，提供拍照识别、保质期管理、菜谱生成与浪费统计四大核心功能。各模块围绕用户需求、业务流程、系统架构、技术接入、数据资料、实施计划和验收标准展开。</p>
+  <div class="meta">技术栈：Streamlit + 智谱GLM-4V/GLM-4-Flash + JSON · 部署：Streamlit社区云 / serveo.net · 测试：105 passed · 覆盖率99.3%</div>
+</div>
+
+<section>
+  <h2><span class="n">01</span>平台与建设思路</h2>
+  <p>通用版提供拍照上传、大模型多模态识别（GLM-4V）、文本生成（GLM-4-Flash）、保质期规则引擎、JSON本地存储与统计看板。专项建设通过食材分类匹配、保质期计算、菜谱Prompt构造与证据表达规则，将这些能力组织为面向家庭食材管理的使用流程。</p>
+  <p>用户拍照或手动输入食材并确认数量、购买日期与存放位置，系统自动匹配食材类别并估算保质期，生成时间线分组展示；用户选择现有食材并填写口味偏好，AI生成含步骤、用时、难度与额外采购清单的菜谱；消耗与过期记录自动汇总为浪费统计看板。</p>
+  <div class="callout">完整闭环：拍照 → 识别食材 → 确认入库 → 保质期时间线 → 选食材+偏好 → AI生成菜谱 → 消耗/过期记录 → 浪费统计看板</div>
+</section>
+
+<section>
+  <h2><span class="n">02</span>专项方向</h2>
+  <table>
+    <thead><tr><th>功能模块</th><th>主要用户</th><th>核心功能</th><th>输入材料</th></tr></thead>
+    <tbody>
+      <tr><td>📷 拍照识别</td><td>所有用户</td><td>食材自动识别、数量确认、批量入库</td><td>冰箱/餐桌/购物袋照片</td></tr>
+      <tr><td>🧊 保质期管理</td><td>所有用户</td><td>保质期估算、时间线分组、过期提醒</td><td>食材名称、购买日期、存放位置、是否开封</td></tr>
+      <tr><td>🍳 剩菜改造</td><td>想做饭的用户</td><td>根据现有食材+偏好生成菜谱</td><td>食材列表、口味偏好（清淡/快手/热食）</td></tr>
+      <tr><td>📊 浪费统计</td><td>所有用户</td><td>过期/消耗统计、节约金额、碳减排估算</td><td>消耗记录、过期记录</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2><span class="n">03</span>共享架构与业务链路</h2>
+
+  <h3>交互层</h3>
+  <p>Streamlit四标签页：拍照识别、冰箱管理、今天吃什么、浪费统计。用户上传照片后确认识别结果并批量入库；冰箱管理以时间线分组展示食材状态（已过期/即将过期/建议冷冻/仍可存放），支持手动添加、消耗与删除；今天吃什么页面选择食材与偏好后生成菜谱卡片；浪费统计展示本周指标与环保反馈。</p>
+
+  <h3>AI与工具层</h3>
+  <p>拍照识别通过GLM-4V多模态大模型，图片转base64后发送识别Prompt，返回JSON格式的食材列表（名称、数量、存放位置）。菜谱生成通过GLM-4-Flash，构造包含现有食材与用户偏好的Prompt，返回JSON格式的菜谱（菜名、步骤、用时、难度、热量、份量、额外采购清单）。识别与生成结果均带用户确认环节，失败时降级处理不中断流程。</p>
+
+  <h3>数据与规则层</h3>
+  <p>食材数据存储在JSON文件中，包含食材信息、消耗记录与过期日志。保质期规则表定义10类常见食材（叶菜类、根茎类、瓜果类、蛋奶类、肉类、水产类、主食类、熟食类、干货类、水果类）的冷藏/冷冻/常温保质期天数与存储建议。开封食材保质期减半，未匹配类别兜底为3天。</p>
+
+  <h3>运行部署</h3>
+  <p>Streamlit单体应用，本地运行仅需 <code>streamlit run streamlit_app.py</code> 一条命令。API Key通过.env文件或Streamlit secrets管理。部署到Streamlit社区云后获得永久公开链接，公网访问也可通过serveo.net SSH隧道临时暴露。单元测试覆盖5个核心模块，105个测试用例，覆盖率99.3%。</p>
+</section>
+
+<section>
+  <h2><span class="n">04</span>实施计划与验证</h2>
+  <table>
+    <thead><tr><th>阶段</th><th>建设任务</th><th>阶段产出</th></tr></thead>
+    <tbody>
+      <tr><td>需求定义</td><td>确定核心功能、10类食材保质期规则、数据模型</td><td>规则表shelf_life.json、食材与菜谱数据模型</td></tr>
+      <tr><td>核心开发</td><td>实现大模型封装、保质期计算、拍照识别、菜谱生成、浪费统计</td><td>app/下7个模块，可调用的业务逻辑</td></tr>
+      <tr><td>前端联调</td><td>开发Streamlit四标签页、单体入口、部署配置</td><td>streamlit_app.py入口、.gitignore、secrets配置</td></tr>
+      <tr><td>测试验证</td><td>补充单元测试、端到端集成测试、部署验证</td><td>105个测试通过、99.3%覆盖率、demo闭环跑通</td></tr>
+      <tr><td>部署交付</td><td>GitHub推送、Streamlit社区云部署、公网链接验证</td><td>公开链接、演示数据、操作说明</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">验收关注完整使用链路、AI生成菜谱是否可用且步骤完整、保质期计算是否覆盖开封与跨存储场景、统计看板数据是否准确、部署后公开链接是否可访问。演示数据包含7种食材、3组时间线、3个AI生成菜谱与6项统计指标。</div>
+</section>
+
+<section>
+  <h2><span class="n">05</span>方案文件与图源</h2>
+  <table>
+    <thead><tr><th>模块</th><th>文件路径</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>大模型封装</td><td>app/llm.py</td><td>智谱GLM-4V/GLM-4-Flash，OpenAI兼容格式</td></tr>
+      <tr><td>食材存储</td><td>app/storage.py</td><td>JSON文件持久化，食材CRUD与消耗记录</td></tr>
+      <tr><td>保质期引擎</td><td>app/fridge.py</td><td>分类匹配、保质期计算、时间线分组</td></tr>
+      <tr><td>拍照识别</td><td>app/vision.py</td><td>GLM-4V识图，JSON解析与兜底</td></tr>
+      <tr><td>菜谱生成</td><td>app/recipe.py</td><td>GLM-4-Flash生成菜谱，JSON解析与降级</td></tr>
+      <tr><td>浪费统计</td><td>app/stats.py</td><td>本周过期/消耗/节约金额/连续天数</td></tr>
+      <tr><td>前端界面</td><td>frontend/app.py</td><td>Streamlit四标签页单体应用</td></tr>
+      <tr><td>部署入口</td><td>streamlit_app.py</td><td>社区云入口，绝对路径执行</td></tr>
+      <tr><td>保质期规则</td><td>data/shelf_life.json</td><td>10类食材保质期与存储建议</td></tr>
+      <tr><td>单元测试</td><td>tests/test_*.py</td><td>5个测试文件，105个用例，99.3%覆盖率</td></tr>
+    </tbody>
+  </table>
+  <p>每套包含系统总体架构（单体应用）、前端交互（四标签页）、业务处理（识别→保质期→菜谱→统计）、数据关系（JSON存储+规则表）、AI调用链路（GLM-4V+GLM-4-Flash）与部署架构（Streamlit社区云/SSH隧道）六个方面。</p>
+</section>
+
+<div class="footer">
+  AI冰箱管家与剩菜改造师 · 专项方案报告 · 生成于 2026-10-20 · 智谱GLM-4V + GLM-4-Flash · Streamlit 1.65.0
+</div>
+
+</div></div>
+</body>
+</html>
