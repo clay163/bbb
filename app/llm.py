@@ -4,24 +4,30 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_KEY = os.getenv("LLM_API_KEY", "")
-BASE_URL = os.getenv("LLM_BASE_URL", "https://open.bigmodel.cn/api/paas/v4")
-VISION_MODEL = os.getenv("LLM_VISION_MODEL", "glm-4v-plus")
-TEXT_MODEL = os.getenv("LLM_TEXT_MODEL", "glm-4-flash")
-
 _client = None
+
+
+def _get_config():
+    return {
+        "api_key": os.getenv("LLM_API_KEY", ""),
+        "base_url": os.getenv("LLM_BASE_URL", "https://open.bigmodel.cn/api/paas/v4"),
+        "vision_model": os.getenv("LLM_VISION_MODEL", "glm-4v-plus"),
+        "text_model": os.getenv("LLM_TEXT_MODEL", "glm-4-flash"),
+    }
 
 
 def get_client() -> OpenAI:
     global _client
     if _client is None:
-        _client = OpenAI(api_key=API_KEY, base_url=BASE_URL)
+        cfg = _get_config()
+        _client = OpenAI(api_key=cfg["api_key"], base_url=cfg["base_url"])
     return _client
 
 
 def chat(messages: list[dict], model: str | None = None, temperature: float = 0.7) -> str:
+    cfg = _get_config()
     resp = get_client().chat.completions.create(
-        model=model or TEXT_MODEL,
+        model=model or cfg["text_model"],
         messages=messages,
         temperature=temperature,
     )
@@ -29,6 +35,7 @@ def chat(messages: list[dict], model: str | None = None, temperature: float = 0.
 
 
 def chat_vision(image_base64: str, prompt: str, temperature: float = 0.2) -> str:
+    cfg = _get_config()
     messages = [
         {
             "role": "user",
@@ -39,7 +46,7 @@ def chat_vision(image_base64: str, prompt: str, temperature: float = 0.2) -> str
         }
     ]
     resp = get_client().chat.completions.create(
-        model=VISION_MODEL,
+        model=cfg["vision_model"],
         messages=messages,
         temperature=temperature,
     )
