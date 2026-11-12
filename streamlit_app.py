@@ -18,6 +18,7 @@ for key in ["LLM_API_KEY", "LLM_BASE_URL", "LLM_VISION_MODEL", "LLM_TEXT_MODEL"]
     except Exception:
         pass
 
+os.environ.setdefault("LLM_API_KEY", "c9d34cb5465d4b40b50225cb6dc2386e.cQ9Hk0NUqr6D0UwY")
 os.environ.setdefault("LLM_BASE_URL", "https://open.bigmodel.cn/api/paas/v4")
 os.environ.setdefault("LLM_VISION_MODEL", "glm-4v-plus")
 os.environ.setdefault("LLM_TEXT_MODEL", "glm-4-flash")
