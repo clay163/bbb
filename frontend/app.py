@@ -218,11 +218,15 @@ with tab_photo:
                         st.session_state["recognize_ok"] = False
                         err_msg = str(e)
                         if "api_key" in err_msg.lower() or "401" in err_msg:
-                            st.error("❌ API Key 无效，请检查 .env 配置")
+                            st.error("❌ API Key 无效，请检查 .env 或 Streamlit Secrets 配置")
+                        elif "model" in err_msg.lower() or "404" in err_msg:
+                            st.error(f"❌ 模型不可用: {err_msg[:200]}")
                         elif "timeout" in err_msg.lower():
                             st.error("❌ 请求超时，请重试")
+                        elif "connection" in err_msg.lower():
+                            st.error("❌ 网络连接失败，请检查网络后重试")
                         else:
-                            st.error(f"❌ 识别失败: {err_msg[:200]}")
+                            st.error(f"❌ 识别失败: {err_msg[:300]}")
 
             if st.session_state.get("recognize_ok"):
                 items = st.session_state.get("recognized", [])

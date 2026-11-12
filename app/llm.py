@@ -6,7 +6,7 @@ load_dotenv()
 
 API_KEY = os.getenv("LLM_API_KEY", "")
 BASE_URL = os.getenv("LLM_BASE_URL", "https://open.bigmodel.cn/api/paas/v4")
-VISION_MODEL = os.getenv("LLM_VISION_MODEL", "glm-4v")
+VISION_MODEL = os.getenv("LLM_VISION_MODEL", "glm-4v-plus")
 TEXT_MODEL = os.getenv("LLM_TEXT_MODEL", "glm-4-flash")
 
 _client = None
